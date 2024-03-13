@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:todo/core/app_export.dart';
+import 'package:todo/logic/size_utils.dart';
+
+import '../../../logic/custom_image_view.dart';
+import '../../../logic/image_constant.dart';
+import '../../../theme/app_decoration.dart';
+import '../../../theme/theme_helper.dart';
+import '../../todo.dart';
 
 // ignore: must_be_immutable
 class TodosItemWidget extends StatelessWidget {
-  TodosItemWidget({
-    Key? key,
-    this.onTapImgTODOTITLE,
-  }) : super(
-          key: key,
-        );
-
-  VoidCallback? onTapImgTODOTITLE;
+  final Todo todo;
+  const TodosItemWidget({
+    super.key,
+    required this.todo,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -27,17 +30,17 @@ class TodosItemWidget extends StatelessWidget {
           Column(
             children: [
               Text(
-                "TODO TITLE",
+                todo.title,
                 style: theme.textTheme.labelLarge,
               ),
               SizedBox(height: 4.v),
               Text(
-                "TODO SUB TITLE",
+                todo.detail,
                 style: theme.textTheme.bodySmall,
               ),
             ],
           ),
-          Spacer(),
+          const Spacer(),
           CustomImageView(
             imagePath: ImageConstant.imgEdit,
             height: 25.adaptSize,
@@ -46,9 +49,7 @@ class TodosItemWidget extends StatelessWidget {
               top: 7.v,
               bottom: 6.v,
             ),
-            onTap: () {
-              onTapImgTODOTITLE!.call();
-            },
+            onTap: () {},
           ),
           CustomImageView(
             imagePath: ImageConstant.imgThumbsUp,

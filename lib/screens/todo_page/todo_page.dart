@@ -1,74 +1,69 @@
-import 'package:todo/widgets/app_bar/custom_app_bar.dart';
-import 'package:todo/widgets/app_bar/appbar_title.dart';
-import 'package:todo/widgets/app_bar/appbar_trailing_image.dart';
-import 'widgets/todos_item_widget.dart';
-import 'package:todo/widgets/custom_floating_button.dart';
 import 'package:flutter/material.dart';
-import 'package:todo/core/app_export.dart';
+import 'package:get/get.dart';
+import 'package:todo/logic/size_utils.dart';
+import 'package:todo/screens/todo_page/widgets/todos_item_widget.dart';
+
+import '../../logic/app_bar/appbar_title.dart';
+import '../../logic/app_bar/appbar_trailing_image.dart';
+import '../../logic/app_bar/custom_app_bar.dart';
+import '../../logic/custom_floating_button.dart';
+import '../../logic/custom_image_view.dart';
+import '../../logic/image_constant.dart';
+import '../add_todo_screen/add_todo_screen.dart';
+import '../todo.dart';
 
 class TodoPage extends StatelessWidget {
-  const TodoPage({Key? key}) : super(key: key);
+  TodoPage({super.key});
+  final TodoController todoController = Get.find();
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-            backgroundColor: appTheme.gray300,
-            appBar: _buildAppBar(context),
+            backgroundColor: Colors.grey[300],
+            appBar: CustomAppBar(
+                title: AppbarTitle(
+                    text: "TODO APP", margin: EdgeInsets.only(left: 19.h)),
+                actions: [
+                  AppbarTrailingImage(
+                      imagePath: ImageConstant.imgVector,
+                      margin: EdgeInsets.fromLTRB(21.h, 17.v, 21.h, 25.v))
+                ],
+                styleType: Style.bgFill),
             body: Container(
                 width: double.maxFinite,
-                decoration: AppDecoration.fillGray,
+                decoration: const BoxDecoration(color: Color(0XFFD6D7EF)),
                 child: Column(mainAxisSize: MainAxisSize.min, children: [
                   SizedBox(height: 22.v),
-                  _buildTodos(context),
-                  Spacer()
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 7.h),
+                    child: Obx(
+                      () => SizedBox(
+                        height:
+                            1000, // Adjust the height according to your requirement
+
+                        child: ListView.builder(
+                          itemCount: todoController.todos.length,
+                          itemBuilder: (context, index) {
+                            var todo = todoController.todos[index];
+                            return TodosItemWidget(todo: todo);
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+                  const Spacer()
                 ])),
-            floatingActionButton: _buildFloatingActionButton(context)));
-  }
-
-  /// Section Widget
-  PreferredSizeWidget _buildAppBar(BuildContext context) {
-    return CustomAppBar(
-        title:
-            AppbarTitle(text: "TODO APP", margin: EdgeInsets.only(left: 19.h)),
-        actions: [
-          AppbarTrailingImage(
-              imagePath: ImageConstant.imgVector,
-              margin: EdgeInsets.fromLTRB(21.h, 17.v, 21.h, 25.v))
-        ],
-        styleType: Style.bgFill);
-  }
-
-  /// Section Widget
-  Widget _buildTodos(BuildContext context) {
-    return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 7.h),
-        child: ListView.separated(
-            physics: NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            separatorBuilder: (context, index) {
-              return SizedBox(height: 21.v);
-            },
-            itemCount: 5,
-            itemBuilder: (context, index) {
-              return TodosItemWidget(onTapImgTODOTITLE: () {
-                onTapImgTODOTITLE(context);
-              });
-            }));
-  }
-
-  /// Section Widget
-  Widget _buildFloatingActionButton(BuildContext context) {
-    return CustomFloatingButton(
-        height: 70,
-        width: 70,
-        backgroundColor: appTheme.indigo200,
-        child: CustomImageView(
-            imagePath: ImageConstant.imgPlus, height: 35.0.v, width: 35.0.h));
-  }
-
-  /// Navigates to the editTodoScreen when the action is triggered.
-  onTapImgTODOTITLE(BuildContext context) {
-    Navigator.pushNamed(context, AppRoutes.editTodoScreen);
+            floatingActionButton: CustomFloatingButton(
+                height: 70,
+                width: 70,
+                onTap: () {
+                  Get.to(AddTodoScreen());
+                },
+                backgroundColor: const Color(0XFF9395D3),
+                child: CustomImageView(
+                    imagePath: ImageConstant.imgPlus,
+                    height: 35.0.v,
+                    width: 35.0.h))));
   }
 }

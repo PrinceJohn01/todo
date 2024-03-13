@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:todo/core/app_export.dart';
+import 'package:todo/logic/size_utils.dart';
+
+import '../../../theme/app_decoration.dart';
+import '../../../theme/theme_helper.dart';
+import '../../todo.dart';
 
 // ignore: must_be_immutable
 class CompletedtaskItemWidget extends StatelessWidget {
-  const CompletedtaskItemWidget({Key? key})
-      : super(
-          key: key,
-        );
+  final Todo todo;
+
+  const CompletedtaskItemWidget({super.key, required this.todo});
 
   @override
   Widget build(BuildContext context) {
@@ -23,12 +26,12 @@ class CompletedtaskItemWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "TODO TITLE",
+            todo.title,
             style: theme.textTheme.labelLarge,
           ),
           SizedBox(height: 4.v),
           Text(
-            "TODO SUB TITLE",
+            todo.detail,
             style: theme.textTheme.bodySmall,
           ),
         ],

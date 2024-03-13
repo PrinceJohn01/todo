@@ -10,7 +10,6 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    mediaQueryData = MediaQuery.of(context);
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -36,7 +35,7 @@ class CustomBottomBar extends StatelessWidget {
         init: GeneralController(),
         builder: (viewModel) {
           return Container(
-            height: 89.v,
+            height: 68.v,
             decoration: const BoxDecoration(
               color: Colors.white,
               boxShadow: [

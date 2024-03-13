@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 
+import '../screens/completed_task_screen/completed_task_screen.dart';
+import '../screens/todo_page/todo_page.dart';
 import 'bottom_bar.dart';
 
 class GeneralController extends GetxController {
@@ -23,5 +25,5 @@ class GeneralController extends GetxController {
     ),
   ];
 
-  List<Widget> body = [];
+  List<Widget> body = [TodoPage(), const CompletedTaskScreen()];
 }
