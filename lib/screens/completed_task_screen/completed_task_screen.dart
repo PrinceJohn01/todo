@@ -11,11 +11,12 @@ import '../../theme/theme_helper.dart';
 import '../todo.dart';
 
 class CompletedTaskScreen extends StatelessWidget {
-  const CompletedTaskScreen({Key? key}) : super(key: key);
+  const CompletedTaskScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final List<Todo> completedTodos = Get.arguments;
+    final List<Todo> completedTodos =
+        Get.find<TodoController>().completedTodos as List<Todo>;
     return SafeArea(
         child: Scaffold(
             backgroundColor: appTheme.gray300,
@@ -36,7 +37,7 @@ class CompletedTaskScreen extends StatelessWidget {
             body: Padding(
               padding: EdgeInsets.only(left: 7.h, top: 16.v, right: 7.h),
               child: Container(
-                height: 200, // Adjust the height according to your requirement
+                height: 1000, // Adjust the height according to your requirement
 
                 child: ListView.builder(
                   itemCount: completedTodos.length,

@@ -14,7 +14,13 @@ class Todo {
 
 class TodoController extends GetxController {
   RxList<Todo> todos = <Todo>[].obs;
-  RxList<Todo> completedTodos = <Todo>[].obs;
+  RxList<Todo>? completedTodos;
+
+  @override
+  void onInit() {
+    completedTodos = <Todo>[].obs; // Initialize completedTodos in onInit
+    super.onInit();
+  }
 
   void addTodo(String title, String detail) {
     todos.add(Todo(title: title, detail: detail));
@@ -32,9 +38,12 @@ class TodoController extends GetxController {
   void toggleCompleted(int index) {
     todos[index].isCompleted = !todos[index].isCompleted;
     if (todos[index].isCompleted) {
-      completedTodos.add(todos[index]);
+      completedTodos?.add(todos[index]);
+      if (todos.isNotEmpty) {
+        todos.removeAt(index);
+      }
     } else {
-      completedTodos.remove(todos[index]);
+      completedTodos?.remove(todos[index]);
     }
   }
 }

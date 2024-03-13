@@ -10,13 +10,33 @@ import '../../logic/custom_text_form_field.dart';
 import '../../logic/image_constant.dart';
 import '../todo.dart';
 
-class EditTodoScreen extends StatelessWidget {
+class EditTodoScreen extends StatefulWidget {
   final TodoController todoController = Get.find();
   final Todo todo;
-  EditTodoScreen({Key? key, required this.todo}) : super(key: key);
 
-  late final TextEditingController titleController;
-  late final TextEditingController detailController;
+  EditTodoScreen({super.key, required this.todo});
+
+  @override
+  _EditTodoScreenState createState() => _EditTodoScreenState();
+}
+
+class _EditTodoScreenState extends State<EditTodoScreen> {
+  late TextEditingController titleController;
+  late TextEditingController detailController;
+
+  @override
+  void initState() {
+    super.initState();
+    titleController = TextEditingController(text: widget.todo.title);
+    detailController = TextEditingController(text: widget.todo.detail);
+  }
+
+  @override
+  void dispose() {
+    titleController.dispose();
+    detailController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,64 +55,60 @@ class EditTodoScreen extends StatelessWidget {
           ),
           styleType: Style.bgFill,
         ),
-        body: LayoutBuilder(
-          builder: (context, constraints) {
-            titleController = TextEditingController(text: todo.title);
-            detailController = TextEditingController(text: todo.detail);
-            return Container(
-              width: double.maxFinite,
-              padding: EdgeInsets.symmetric(horizontal: 14.h, vertical: 41.v),
-              child: Column(
+        body: Container(
+          width: double.maxFinite,
+          padding: EdgeInsets.symmetric(horizontal: 14.h, vertical: 41.v),
+          child: Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15.h),
+                child: CustomTextFormField(
+                  controller: titleController,
+                  hintText: "Title",
+                ),
+              ),
+              SizedBox(height: 40.v),
+              Padding(
+                padding: EdgeInsets.only(left: 18.h, right: 12.h),
+                child: CustomTextFormField(
+                  controller: detailController,
+                  hintText: "Detail",
+                  textInputAction: TextInputAction.done,
+                ),
+              ),
+              SizedBox(height: 53.v),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 15.h),
-                    child: CustomTextFormField(
-                      controller: titleController,
-                      hintText: "Title",
+                  Expanded(
+                    child: CustomElevatedButton(
+                      text: "Update",
+                      margin: EdgeInsets.only(right: 23.h),
+                      onPressed: () {
+                        String newTitle = titleController.text;
+                        String newDetail = detailController.text;
+                        int index =
+                            widget.todoController.todos.indexOf(widget.todo);
+                        widget.todoController
+                            .editTodo(index, newTitle, newDetail);
+                        Get.back();
+                      },
                     ),
                   ),
-                  SizedBox(height: 40.v),
-                  Padding(
-                    padding: EdgeInsets.only(left: 18.h, right: 12.h),
-                    child: CustomTextFormField(
-                      controller: detailController,
-                      hintText: "Detail",
-                      textInputAction: TextInputAction.done,
+                  Expanded(
+                    child: CustomElevatedButton(
+                      text: "Cancel",
+                      margin: EdgeInsets.only(left: 23.h),
+                      onPressed: () {
+                        Get.back();
+                      },
                     ),
                   ),
-                  SizedBox(height: 53.v),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: CustomElevatedButton(
-                          text: "Update",
-                          margin: EdgeInsets.only(right: 23.h),
-                          onPressed: () {
-                            String newTitle = titleController.text;
-                            String newDetail = detailController.text;
-                            int index = todoController.todos.indexOf(todo);
-                            todoController.editTodo(index, newTitle, newDetail);
-                            Get.back();
-                          },
-                        ),
-                      ),
-                      Expanded(
-                        child: CustomElevatedButton(
-                          text: "Cancel",
-                          margin: EdgeInsets.only(left: 23.h),
-                          onPressed: () {
-                            Get.back();
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 5.v),
                 ],
               ),
-            );
-          },
+              SizedBox(height: 5.v),
+            ],
+          ),
         ),
       ),
     );
