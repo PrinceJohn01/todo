@@ -2,18 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:todo/logic/size_utils.dart';
 
-import '../../logic/app_bar/appbar_leading_image.dart';
 import '../../logic/app_bar/appbar_title.dart';
 import '../../logic/app_bar/custom_app_bar.dart';
 import '../../logic/custom_elevated_button.dart';
 import '../../logic/custom_text_form_field.dart';
-import '../../logic/image_constant.dart';
 import '../../theme/theme_helper.dart';
 import '../todo.dart';
 
 // ignore_for_file: must_be_immutable
 class AddTodoScreen extends StatelessWidget {
-  AddTodoScreen({Key? key}) : super(key: key);
+  AddTodoScreen({super.key});
 
   final TodoController todoController = Get.find();
   final TextEditingController titleController = TextEditingController();
@@ -26,10 +24,15 @@ class AddTodoScreen extends StatelessWidget {
             resizeToAvoidBottomInset: false,
             appBar: CustomAppBar(
                 leadingWidth: 51.h,
-                leading: AppbarLeadingImage(
-                    imagePath: ImageConstant.imgTurnBackpageButton,
-                    margin:
-                        EdgeInsets.only(left: 26.h, top: 34.v, bottom: 37.v)),
+                leading: IconButton(
+                    onPressed: () {
+                      Get.back();
+                    },
+                    icon: const Icon(
+                      Icons.arrow_back_outlined,
+                      color: Colors.white,
+                      size: 42,
+                    )),
                 title: AppbarTitle(
                     text: "Add Task", margin: EdgeInsets.only(left: 37.h)),
                 styleType: Style.bgFill),

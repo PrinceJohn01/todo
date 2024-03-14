@@ -22,9 +22,7 @@ class CustomElevatedButton extends BaseButton {
   });
 
   final BoxDecoration? decoration;
-
   final Widget? leftIcon;
-
   final Widget? rightIcon;
 
   @override
@@ -43,7 +41,10 @@ class CustomElevatedButton extends BaseButton {
         margin: margin,
         decoration: decoration,
         child: ElevatedButton(
-          style: buttonStyle,
+          style: ElevatedButton.styleFrom(
+            backgroundColor:
+                const Color(0xFF9395D3), // Set background color here
+          ),
           onPressed: isDisabled ?? false ? null : onPressed ?? () {},
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,

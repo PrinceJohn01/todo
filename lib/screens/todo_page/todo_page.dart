@@ -46,7 +46,10 @@ class TodoPage extends StatelessWidget {
                           itemCount: todoController.todos.length,
                           itemBuilder: (context, index) {
                             var todo = todoController.todos[index];
-                            return TodosItemWidget(todo: todo);
+                            return Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: TodosItemWidget(todo: todo),
+                            );
                           },
                         ),
                       ),

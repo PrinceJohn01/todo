@@ -23,9 +23,6 @@ class TodosItemWidget extends StatelessWidget {
     int todoIndex = todoController.todos.indexOf(todo);
     return Column(
       children: [
-        const SizedBox(
-          height: 35,
-        ),
         Container(
           padding: EdgeInsets.symmetric(
             horizontal: 19.h,
@@ -96,11 +93,13 @@ class TodosItemWidget extends StatelessWidget {
                   todoController.toggleCompleted(todoIndex);
 
                   // Remove the todo from the current page's list
-                  todoController.todos.removeAt(todoIndex);
+                  if (todoController.todos.length > todoIndex) {
+                    todoController.todos.removeAt(todoIndex);
+                  }
 
                   // Add the todo to the completed todos list
                   todoController.completedTodos?.add(todo);
-                  // Navigate to the CompletedTaskScreen
+
                   todoController.update();
                 },
               ),

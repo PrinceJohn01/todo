@@ -36,14 +36,16 @@ class CompletedTaskScreen extends StatelessWidget {
                 styleType: Style.bgFill),
             body: Padding(
               padding: EdgeInsets.only(left: 7.h, top: 16.v, right: 7.h),
-              child: Container(
-                height: 1000, // Adjust the height according to your requirement
-
+              child: SizedBox(
+                height: 1000,
                 child: ListView.builder(
                   itemCount: completedTodos.length,
                   itemBuilder: (context, index) {
                     final todo = completedTodos[index];
-                    return CompletedtaskItemWidget(todo: todo);
+                    return Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: CompletedtaskItemWidget(todo: todo),
+                    );
                   },
                 ),
               ),
